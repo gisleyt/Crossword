@@ -4,10 +4,10 @@ object Trie {
   
   def inject(node: Node, word : Array[Char]): Unit = {
     if (!word.isEmpty) {
-      if (!node.daughters.contains(word(0))) {
-        node.daughters.put(word(0), new Node(word(0)))
+      if (!node.daughters.contains(word.head)) {
+        node.daughters.put(word.head, new Node(word.head))
       }
-      inject(node.daughters(word(0)), word.tail)
+      inject(node.daughters(word.head), word.tail)
     } else {
       node.daughters.put('.', new Node())
     }
@@ -17,7 +17,7 @@ object Trie {
     if (word.isEmpty)
       node.daughters.contains('.')
     else {
-      val daughter = node.daughters.get(word(0))
+      val daughter = node.daughters.get(word.head)
       daughter match {
         case Some(node) => contains(node, word.tail)
         case None => false

@@ -10,9 +10,9 @@ class Node(val letter : Char) {
    }
    
     def getNode(prefix : Array[Char]) : Option[Node] = {
-      val nodeOption = this.daughters.get(prefix(0))
+      val nodeOption = this.daughters.get(prefix.head)
        if (nodeOption.isDefined) {
-        if (prefix.length == 1) nodeOption else nodeOption.get.getNode(prefix.drop(1)) 
+        if (prefix.length == 1) nodeOption else nodeOption.get.getNode(prefix.tail)
       } else {
         nodeOption
       }
