@@ -1,5 +1,6 @@
 package com.cuteforce.scala.crossword
 
+import scala.annotation.tailrec
 import scala.collection.mutable
 
 class Node(val letter : Char) {
@@ -8,13 +9,13 @@ class Node(val letter : Char) {
    def this() {
       this('%')
    }
-   
-    def getNode(prefix : Array[Char]) : Option[Node] = {
-      val nodeOption = this.daughters.get(prefix(0))
-       if (nodeOption.isDefined) {
-        if (prefix.length == 1) nodeOption else nodeOption.get.getNode(prefix.drop(1)) 
-      } else {
-        nodeOption
-      }
-    }
+
+  @tailrec final def getNode(prefix : Array[Char]) : Option[Node] = {
+    val nodeOption = this.daughters.get(prefix.head)
+     if (!nodeOption.isDefined || prefix.length == 1) {
+       return nodeOption
+     } else {
+       return nodeOption.get.getNode(prefix.tail)
+     }
+  }
 }
