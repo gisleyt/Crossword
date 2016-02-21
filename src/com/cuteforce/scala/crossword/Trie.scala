@@ -1,8 +1,10 @@
 package com.cuteforce.scala.crossword
 
+import scala.annotation.tailrec
+
 object Trie {
   
-  def inject(node: Node, word : Array[Char]): Unit = {
+  @tailrec final def inject(node: Node, word : Array[Char]): Unit = {
     if (!word.isEmpty) {
       if (!node.daughters.contains(word.head)) {
         node.daughters.put(word.head, new Node(word.head))
@@ -13,15 +15,11 @@ object Trie {
     }
   }
   
-  def contains(node: Node, word : Array[Char]): Boolean = {
+  @tailrec final def contains(node: Node, word : Array[Char]): Boolean = {
     if (word.isEmpty)
       node.daughters.contains('.')
     else {
-      val daughter = node.daughters.get(word.head)
-      daughter match {
-        case Some(node) => contains(node, word.tail)
-        case None => false
-      }
+      if (node.daughters.contains(word.head)) contains(node, word.tail) else false
     }
   }
   
