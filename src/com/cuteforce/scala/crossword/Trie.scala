@@ -47,7 +47,7 @@ object Trie {
   }
 
 
-  final def getWordFrequencies(node: Node): Stream[Tuple2[String, Integer]] = {
+  final def getWordFrequencies(node: Node): Stream[Tuple2[String, Int]] = {
     if (node.letter.isDefined) {
       throw new IllegalArgumentException("Use the root level of the dictionary")
     } else {
@@ -56,7 +56,7 @@ object Trie {
   }
 
 
-  private[this] final def getWordFrequencies(node: Node, prefix: Array[Char]): Stream[Tuple2[String, Integer]] = {
+  private[this] final def getWordFrequencies(node: Node, prefix: Array[Char]): Stream[Tuple2[String, Int]] = {
     if (node.letter.isEmpty) {
       return node.daughters.valuesIterator.flatMap(node => getWordFrequencies(node, prefix)).toStream
     } else {
@@ -70,7 +70,7 @@ object Trie {
   }
 
 
-  final def getWordFrequency(node: Node, word : String): Integer = {
+  final def getWordFrequency(node: Node, word : String): Int = {
     if (node.letter.isDefined) {
       throw new IllegalArgumentException("Use the root level of the dictionary")
     } else {
@@ -79,7 +79,7 @@ object Trie {
   }
 
 
-  @tailrec private[this] final def getWordFrequency(node: Node, word : Array[Char]): Integer = {
+  @tailrec private[this] final def getWordFrequency(node: Node, word : Array[Char]): Int = {
     if (word.isEmpty)
       node.frequency
     else {
