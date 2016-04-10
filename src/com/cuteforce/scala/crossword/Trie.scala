@@ -2,10 +2,17 @@ package com.cuteforce.scala.crossword
 
 import scala.annotation.tailrec
 
-
 object Trie {
 
-  @tailrec final def inject(node: Node, word : Array[Char]): Unit = {
+  final def inject(node: Node, word : String): Unit = {
+    if (node.letter.isDefined) {
+      throw new IllegalArgumentException("Use the root level of the dictionary")
+    } else {
+      return inject(node, word.toCharArray)
+    }
+  }
+
+  @tailrec private[this] final def inject(node: Node, word : Array[Char]): Unit = {
     if (!word.isEmpty) {
       if (!node.daughters.contains(word.head)) {
         node.daughters.put(word.head, new Node(Some(word.head)))
@@ -63,16 +70,41 @@ object Trie {
   }
 
 
-  @tailrec final def contains(node: Node, word : Array[Char]): Boolean = {
-    if (word.isEmpty)
-      node.frequency > 0
-    else {
-      if (node.daughters.contains(word.head)) contains(node, word.tail) else false
+  final def getWordFrequency(node: Node, word : String): Integer = {
+    if (node.letter.isDefined) {
+      throw new IllegalArgumentException("Use the root level of the dictionary")
+    } else {
+      return getWordFrequency(node, word.toCharArray)
     }
   }
 
 
-  def getDictionary(): Node = {
+  @tailrec private[this] final def getWordFrequency(node: Node, word : Array[Char]): Integer = {
+    if (word.isEmpty)
+      node.frequency
+    else {
+      if (node.daughters.contains(word.head)) getWordFrequency(node.daughters.get(word.head).get, word.tail) else 0
+    }
+  }
+
+  final def contains(node: Node, word : String): Boolean = {
+    if (node.letter.isDefined) {
+      throw new IllegalArgumentException("Use the root level of the dictionary")
+    } else {
+      return contains(node, word.toCharArray)
+    }
+  }
+
+  @tailrec private[this] final def contains(node: Node, word : Array[Char]): Boolean = {
+    if (word.isEmpty)
+      node.frequency > 0
+    else {
+      if (node.daughters.contains(word.head)) contains(node.daughters.get(word.head).get, word.tail) else false
+    }
+  }
+
+
+  final def getDictionary(): Node = {
     new Node()
   }
 }

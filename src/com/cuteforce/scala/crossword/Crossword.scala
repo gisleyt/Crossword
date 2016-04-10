@@ -14,7 +14,7 @@ class Crossword(val size: Int, dictionary: String) {
   Source.fromFile(dictionary).getLines()
     .flatMap(_.split('.'))
     .filter(_.length() == this.size)
-    .foreach(x => Trie.inject(this.root, x.toCharArray))
+    .foreach(x => Trie.inject(this.root, x))
 
   
   def solve(letters : Array[Char]): Option[Array[Char]] = {
